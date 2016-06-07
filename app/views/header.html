@@ -1,0 +1,29 @@
+<div class="header">
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-4">
+    		</div>
+    		<div class="col-sm-8 halHeader">
+    			<div class="form-group" ng-hide="isLogged" class="nav"> 
+          		Not have an account? 
+          		<a data-toggle="modal" data-target="#myModal">Sign up</a>
+        		</div>
+
+	        	<div class="form-group" ng-show="isLogged"> 
+	        		Wellcome
+	        		<div class="btn-group">
+						 <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
+						    <label>{{user.email}}</label>
+						   	<span class="caret"></span>
+						</a>
+						 <ul class="dropdown-menu">
+						    <li><a ui-sref="updateProfile({email: 'test', accessTocken: '123'})">Update Profile</a></li>
+						    <li class="divider"></li>
+						    <li><a href="#">Sign Out</a></li>
+						</ul>
+					</div>
+	        	</div>	
+    		</div>
+		</div>
+	</div>		
+</div>

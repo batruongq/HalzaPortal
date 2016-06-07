@@ -1,0 +1,52 @@
+<form id="frmSignup" name ="frmSignup">
+	<div class="form-group" >
+	<div class="form-group">
+		<input ng-model="user.email" placeholder="Email" class="form-control" name ="email" />
+	</div>
+	<div class="form-group">
+		<input type="password" ng-model="user.password" placeholder="Password" class="form-control" name="password" />
+	</div>
+    <div class="form-group">
+        <input type="password" ng-model="user.rePassword" placeholder="Retype Password" class="form-control" name="confirmPassword" />
+    </div>
+	<div class="form-group">
+		<input type="submit" value="Continue with Email" class="btn btn-success" ng-click="signUpByEmail()" />
+	</div>
+
+</div>
+</form>
+
+
+<script>
+	$(document).ready(function() {
+    $('#frmSignup').formValidation({
+        framework: 'bootstrap',
+        icon: {
+            valid: 'glyphicon glyphicon-ok',
+            invalid: 'glyphicon glyphicon-remove',
+            validating: 'glyphicon glyphicon-refresh'
+        },
+        fields: {
+            confirmPassword: {
+                validators: {
+                    identical: {
+                        field: 'password',
+                        message: 'The password and its confirm are not the same'
+                    }
+                }
+            },
+            email:{
+            	validators: {
+                        regexp: {
+                            regexp: '^[^@\\s]+@([^@\\s]+\\.)+[^@\\s]+$',
+                            message: 'The value is not a valid email address'
+                        }
+                    }
+            }
+        }
+    });
+
+   
+});
+
+</script>

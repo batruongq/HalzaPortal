@@ -1,0 +1,88 @@
+
+<div class="container" ng-controller="SignInCtrl">
+  <div class="row">
+    <div class="col-sm-4" id="lMainContent">
+    </div>
+
+    <div class="col-sm-8" id="rMainContent">
+        <!-- <div class="form-group"> 
+          Not have an account? 
+          <a data-toggle="modal" data-target="#myModal">Sign up</a>
+        </div> -->
+        <fieldset class="login-border">
+          <legend class="login-border">Log in</legend>
+          <div class="form-group"> 
+            <div class="form-group">
+                <input ng-model="user.email" placeholder="Email" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="password" ng-model="user.password" placeholder="Password" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input type="checkbox" ng-model="isRemember" /> <label>Remember me?</label>
+            </div>
+            <div class="form-group">
+                <input type="button" value="Login" class="btn btn-success" ng-click="loginByEmail()" />
+            </div>
+            <p>--------------------------------or-------------------------------</p>
+            <div class="form-group">
+              <div linkedin-login
+                linkedin-button-text="Log in by LinkedIn"
+                linkedin-success-msg="LinkedIn authorized!"
+                linkedin-profile-data="linkedinProfileDataCallback">
+              </div>
+            </div>
+    
+            <div class="form-group">
+              <input type="button" value="Log in by Google" class="btn btn-danger" ng-click="loginByGoogle()" />
+            </div>
+
+          </div>
+        </fieldset>
+    </div>
+  </div>
+ 
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Sign up</h4>
+        </div>
+        <div class="modal-body" ng-controller="SignUpCtrl">
+           <div ng-include="'views/signUp.html'"></div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+    </div>
+</div>
+
+<script type="text/ng-template" id="linkedInLogin.html">
+    <div>
+        <div id="linkedin-wrap">
+            <div class="align-center double-pad-bottom">
+                <div class="padded">
+                    <a class="btn btn-block btn-primary" ng-click="onLinkedinAuthClick($event)" class="button large linkedin-btn">{{_buttonText}}</a>
+                </div>
+                <div><span class="with-linkedin-icon"></span></div>
+            </div>
+            <div ng-show="!linkedinMsg.errorMsg && linkedinMsg.message" class="linkedin-msg padded align-center">
+                {{linkedinMsg.message}}
+            </div>
+        </div>
+        <div ng-show="linkedinMsg.errorMsg" class="color-red padded align-center">
+            <p class="color-red">{{linkedinMsg.errorMsg}}</p>
+        </div>
+        
+    </div>
+</script>
+
+
+
+
