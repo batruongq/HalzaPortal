@@ -8,22 +8,32 @@
  * Controller of the halzaPortalAppApp
  */
 angular.module('halzaPortalAppApp')
-  .controller('SignUpCtrl', ['$scope', 'GooglePlus', '$http', '$location', 
-  	function ($scope, GooglePlus, $http, $location) {
+  .controller('SignUpCtrl', ['$scope', 'GooglePlus', '$http', '$location', 'authentication',
+  	function ($scope, GooglePlus, $http, $location, authentication) {
 
   		//sign up by email
-  		$scope.user = {email: "", password: ""};
+  		$scope.user = {email: "", password: "", confirmPassword: ""};
+        $scope.errMessage = "";
+        $scope.isError = false;
+
     	$scope.signUpByEmail = function(){
             console.log('signUpByEmail');
 			var data = $.param({
 	            json: JSON.stringify({
-	                email: $scope.user.email,
-	                password: $scope.user.password
+	                Email: $scope.user.email,
+	                Password: $scope.user.password,
+                    ConfirmPassword: $scope.user.confirmPassword
 	            })
 	        });
-	        $http.post("", data).success(function(data, status) {
-	        	$location.path("/");
-	        })
+	        authentication.register(data)
+            .success(function (dataBack) {
+                console.log(dataBack);
+            })
+            .error(function (error) {
+                $scope.errMessage = error.Message;
+                $scope.isError = true;
+            });
+
     	};
 
         //sign in by email

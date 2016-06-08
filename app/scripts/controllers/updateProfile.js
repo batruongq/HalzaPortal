@@ -11,4 +11,15 @@ angular.module('halzaPortalAppApp')
   .controller('UpdateProfileCtrl', ['$scope', '$http', '$stateParams',
   	function ($scope, $http, $stateParams) {
     	$scope.user = $stateParams;
+    	$scope.isPhoneNumber = false;
+    	$scope.isOfficeAddress = false;
+
+    	$scope.showAddPhoneNumber = function(){
+    		$scope.isPhoneNumber = true;
+    	};
+
+    	$scope.showAddOfficeAddress = function(){
+    		$scope.isOfficeAddress = true;
+    	};
+
   	}]);

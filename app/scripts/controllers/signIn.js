@@ -8,11 +8,12 @@
  * Controller of the halzaPortalAppApp
  */
 angular.module('halzaPortalAppApp')
-  .controller('SignInCtrl', ['$scope', 'GooglePlus', '$http', '$location', '$cookies','$rootScope',
-  	function ($scope, GooglePlus, $http, $location, $cookies, $rootScope) {
+  .controller('SignInCtrl', ['$scope', 'GooglePlus', '$http', '$location', '$cookies','$rootScope', 'authentication',
+  	function ($scope, GooglePlus, $http, $location, $cookies, $rootScope, authentication) {
 
        $scope.user = {email: "", password: "", accessToken: ""};
        $scope.isRemember = false;
+
        var accCookie = $cookies.get('HalzaAccEmail');
        if(accCookie != undefined) {
             //auto login here
@@ -20,12 +21,19 @@ angular.module('halzaPortalAppApp')
 
         //sign in by email
         $scope.loginByEmail = function () {
-            
             var data = $.param({
                 json: JSON.stringify({
                     email: $scope.user.email,
                     password: $scope.user.password
                 })
+            });
+
+            authentication.login(data).success(function (dataBack) {
+                console.log(dataBack);
+            })
+            .error(function (error) {
+                $scope.errMessage = error.Message;
+                $scope.isError = true;
             });
 
             //hard code user login success, send message to headerctr to handle header UI
@@ -34,14 +42,6 @@ angular.module('halzaPortalAppApp')
             };
             $rootScope.$broadcast('user:logged', user);
             $location.path("/home");
-
-            $http.post("", data).success(function(data, status) {
-                if($scope.isRemember){
-                //$cookies.put('HalzaAccEmail', $scope.user.email);
-                //$cookies.put('HalzaAccAccessToken', data.accessToken);
-            }
-                $location.path("/home");
-            })
     };
 
     	//sign in by google

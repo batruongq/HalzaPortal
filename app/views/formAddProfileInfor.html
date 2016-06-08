@@ -1,0 +1,22 @@
+<div class="well frmAddProfile">  
+	<form id="contactForm" name ="contactForm" >  
+		<div name="addPhoneNumber" >
+			<div class="form-group">  
+				<input ng-model="user.phoneNumber" placeholder="Enter your phone number here" class="form-control" name ="phoneNumber" /> 
+			</div> 
+			<div class="form-group">
+				<button class="btn btn-success">Save</button> 
+			</div>
+		</div>
+
+		<div name="addPhoneNumber" ng-show="isOfficeAddress">
+			<div class="form-group">  
+				<input ng-model="user.officeAddress" placeholder="Enter your office address here" class="form-control" name ="officeAddress" /> 
+			</div> 
+			<div class="form-group">
+				<button class="btn btn-success">Save</button> 
+			</div>
+		</div>
+		
+	</form>
+</div>

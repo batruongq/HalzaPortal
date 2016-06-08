@@ -13,7 +13,7 @@ angular.module('halzaPortalAppApp')
 		element.bind("click", function(){
 				angular.element(document.getElementById('space-for-add-info'))
 				.append($compile("<div class=\"well frmAddProfile\"> " +
-				      			"<form id=\"frmAddPhoneNumber\" name =\"frmAddPhoneNumber\" > " + 
+				      			"<form id=\"contactForm\" name =\"contactForm\" > " + 
 									"<div class=\"form-group\">" + 
 										"<input ng-model=\"user.phoneNumber\" placeholder=\"Input your phone number here\" class=\"form-control\" name =\"phoneNumber\" /> " +
 									"</div> " +
