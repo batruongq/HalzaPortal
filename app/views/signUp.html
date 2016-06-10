@@ -1,25 +1,30 @@
-<form id="frmSignup" name ="frmSignup">
-	<div class="form-group" >
-	<div class="form-group">
-		<input ng-model="user.email" placeholder="Email" class="form-control" name ="email" />
-	</div>
-	<div class="form-group">
-		<input type="password" ng-model="user.password" placeholder="Password" class="form-control" name="password" />
-	</div>
-    <div class="form-group">
-        <input type="password" ng-model="user.confirmPassword" placeholder="Retype Password" class="form-control" name="confirmPassword" />
+<!-- <form id="frmSignup" name ="frmSignup"> -->
+    <div class="modal-header">
+        <h3 class="modal-title">Sign Up By Email</h3>
     </div>
-	<div class="form-group">
-		<input type="button" value="Continue with Email" class="btn btn-success" ng-click="signUpByEmail()" />
-	</div>
+    <div class="modal-body">
+        <div class="form-group" >
+            <div class="form-group">
+                <input ng-model="user.email" placeholder="Email" class="form-control" name ="email" />
+            </div>
+            <div class="form-group">
+                <input type="password" ng-model="user.password" placeholder="Password" class="form-control" name="password" />
+            </div>
+            <div class="form-group">
+                <input type="password" ng-model="user.confirmPassword" placeholder="Retype Password" class="form-control" name="confirmPassword" />
+            </div>
 
-    <div class="errMessage alert-danger" ng-show="isError" style="background-color:#fff;">
-        <p>{{errMessage}}</p>
+            <div class="errMessage alert-danger" ng-show="isError" style="background-color:#fff;">
+                <p>{{errMessage}}</p>
+            </div>
+
+        </div>
     </div>
-
-</div>
-</form>
-
+    <div class="form-group btnGroup" >
+            <button class="btn btn-success" type="button" ng-click="continue()">Continue</button>
+            <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
+        </div>
+<!-- </form> -->
 
 <script>
 	$(document).ready(function() {

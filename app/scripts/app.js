@@ -19,10 +19,11 @@ angular
     'ngSanitize',
     'ngTouch',
     'googleplus',
-    'ui.router'
+    'ui.router',
+    'ui.bootstrap'
   ])
-  .config(['$routeProvider', 'GooglePlusProvider', '$stateProvider', 
-    function ($routeProvider, GooglePlusProvider, $stateProvider) {
+  .config(['$routeProvider', 'GooglePlusProvider', '$stateProvider', '$locationProvider',
+    function ($routeProvider, GooglePlusProvider, $stateProvider, $locationProvider) {
 
       $stateProvider
       .state('root',{
@@ -47,16 +48,6 @@ angular
           }
         }
       })
-      .state("signup", {
-          url: "/signup",
-          parent: 'root',
-          views: {
-            'content@': {
-              templateUrl: 'views/signup.html',
-              controller: "SignUpCtrl"
-            }
-          }
-        })
       .state("home", {
           url: "/home",
           parent: 'root',
@@ -64,6 +55,26 @@ angular
             'content@': {
               templateUrl: 'views/home.html',
               controller: "HomeCtrl"
+            }
+          }
+        })
+      .state("testmodal", {
+          url: "/test",
+          parent: 'root',
+          views: {
+            'content@': {
+              templateUrl: 'views/modal.html',
+              controller: "ModalDemoCtrl"
+            }
+          }
+        })
+      .state("linkedCallBack", {
+          url: "/callback",
+          parent: 'root',
+          views: {
+            'content@': {
+              templateUrl: 'views/linkedCallBack.html',
+              controller: "LinkedInCallbackCtrl"
             }
           }
         })
@@ -81,6 +92,8 @@ angular
             accessTocken: null
           }
         });
+
+       $locationProvider.html5Mode(true);
 
     // $routeProvider
     //   .when('/', {
@@ -108,8 +121,8 @@ angular
     //   });
 
       GooglePlusProvider.init({
-      clientId: '20743198667-jv4bi49469j8qhb5g81e6l7hk8347rl0.apps.googleusercontent.com',
-      apiKey: 'AIzaSyBECp7P7lzkX89-wqXPLyB2EMthV0kR4zE'
+      clientId: '287960208155-j02ht1m0pi7r96kj6mm2jscfalkjhgt2.apps.googleusercontent.com',
+      clientSecret: 'oscasdvLBpGKnZTErzRdmBXO'
     });
-      
+      GooglePlusProvider.setScopes('profile email');      
   }]);

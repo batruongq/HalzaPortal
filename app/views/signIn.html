@@ -1,40 +1,38 @@
 
 <div class="container" ng-controller="SignInCtrl">
+
+<loading></loading>
+
   <div class="row">
     <div class="col-sm-4" id="lMainContent">
     </div>
 
     <div class="col-sm-8" id="rMainContent">
-        <!-- <div class="form-group"> 
-          Not have an account? 
-          <a data-toggle="modal" data-target="#myModal">Sign up</a>
-        </div> -->
         <fieldset class="login-border">
           <legend class="login-border">Log in</legend>
           <div class="form-group"> 
             <div class="form-group">
-                <input ng-model="user.email" placeholder="Email" class="form-control" />
+                <input ng-model="user.username" placeholder="Email" class="form-control" />
             </div>
             <div class="form-group">
                 <input type="password" ng-model="user.password" placeholder="Password" class="form-control" />
             </div>
             <div class="form-group">
-                <input type="checkbox" ng-model="isRemember" /> <label>Remember me?</label>
+                <input type="checkbox" ng-model="user.isRemember" /> <label>Remember me?</label>
+            </div>
+            <div class="errMessage alert-danger" ng-show="isError" style="background-color:#fff;">
+                <p>{{errMessage}}</p>
             </div>
             <div class="form-group">
                 <input type="button" value="Login" class="btn btn-success" ng-click="loginByEmail()" />
             </div>
             <p>--------------------------------or-------------------------------</p>
-            <div class="form-group">
-              <div linkedin-login
-                linkedin-button-text="Log in by LinkedIn"
-                linkedin-success-msg="LinkedIn authorized!"
-                linkedin-profile-data="linkedinProfileDataCallback">
-              </div>
-            </div>
-    
+
             <div class="form-group">
               <input type="button" value="Log in by Google" class="btn btn-danger" ng-click="loginByGoogle()" />
+            </div>
+            <div class="form-group">
+              <input type="button" value="Log in by LinkedIn" class="btn btn-primary" ng-click="loginByLinkedIn()" />
             </div>
 
           </div>

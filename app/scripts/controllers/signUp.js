@@ -25,7 +25,7 @@ angular.module('halzaPortalAppApp')
                     ConfirmPassword: $scope.user.confirmPassword
 	            })
 	        });
-	        authentication.register(data)
+	        var rsData = authentication.register(data)
             .success(function (dataBack) {
                 console.log(dataBack);
             })

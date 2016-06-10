@@ -1,7 +1,7 @@
 angular.module('halzaPortalAppApp')
   .directive('linkedinLogin',
-    ['$rootScope', '$interval',
-      function ($rootScope, $interval) {
+    ['$rootScope', '$interval', '$http',
+      function ($rootScope, $interval, $http) {
         return {
           restrict: 'AE',
           replace: true,
@@ -23,7 +23,7 @@ angular.module('halzaPortalAppApp')
               $.getScript("//platform.linkedin.com/in.js?async=true", function success() {
                 IN.init({
                   onLoad: "linkedinLibInit",
-                  api_key: "751lop1080k1xa",
+                  api_key: "75auoha37nqt11",
                   credentials_cookie: true
                 });
               });
@@ -57,14 +57,20 @@ angular.module('halzaPortalAppApp')
               var authorizeLinkedin = function(){
                 scope.linkedinMsg.loading = true;
                 if(IN.User.isAuthorized()){
+                  console.log('isAuthorized');
+                  console.log(IN.User);
                   linkedinAuthorized();
                 }else{
-                  IN.User.authorize(linkedinAuthorized);
+                  console.log('else');
+                  var a = IN.User.authorize(linkedinAuthorized);
+                  console.log(a);
                 }
+
               };
 
               var linkedinAuthorized = function(){
                 if(_profileDataHandler && typeof _profileDataHandler == 'function'){
+
                   IN.API.Profile("me")
                     .fields('id','first-name','last-name','location','industry','headline','picture-urls::(original)','email-address')
                     .result(function(data){
@@ -84,6 +90,15 @@ angular.module('halzaPortalAppApp')
               };
     
               var linkedinDataTransform = function(linData){
+                 $http.get('https://www.linkedin.com/oauth/v2/authorization?response_type=code&client_id=75auoha37nqt11&redirect_uri=http://localhost:3000/callback&state=987654321&scoper_emailaddress')
+                 .then(function(response){
+                   console.log('sscess');
+                  console.log(response);
+                 },
+                 function(response){
+                  console.log('error');
+                     console.log(response);
+                 });
                 var linUser = ( (linData && linData.values) ? linData.values[0] : null );
                 if(linUser){
                   scope.linkedinMsg.showButton = false;

@@ -150,3 +150,8 @@ legend.login-border {
     margin: 15px 0;
 }
 
+.btnGroup{
+  text-align: center;
+}
+
+.loading { border:1px solid #ddd; padding:20px; margin:40px 5px; width:80px;}
