@@ -108,6 +108,7 @@ body {
 #rMainContent{
   padding-left: 100px;
 }
+
 fieldset.login-border {
     border: 2px groove #ddd !important;
     padding: 0 1.4em 1.4em 1.4em !important;
@@ -141,9 +142,8 @@ legend.login-border {
   padding-top: 30px;
 }
 
-.frmAddProfile input{
+.frmAddProfile input, .frmAddProfile textarea{
   width: 60%;
-  margin-left: 20%;
 }
 
 .frmAddProfile.well{
@@ -155,3 +155,24 @@ legend.login-border {
 }
 
 .loading { border:1px solid #ddd; padding:20px; margin:40px 5px; width:80px;}
+
+.backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+}
+
+.new-section {
+  display: none;
+}
+
+.new .new-section {
+  display: block;
+}
+
+.isLoading{
+  padding-left: 290px;
+}

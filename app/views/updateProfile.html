@@ -1,3 +1,4 @@
+
 <div class="container well">
 	<h3 class="header">About</h3>
 	<div class="row">
@@ -11,27 +12,29 @@
 			      <div class="panel-body">
 			      		<div class="row">
 			      			<div class="col-sm-9">
-			      			Truong Thi Ba
+			      				<div ng-bind="user.name" ng-show="!editName"></div>
+			      				<input ng-model="user.name" ng-show="editName" ng-model-options="{ updateOn: 'blur'}">
 			      			</div>
 			      			<div>
-			      			<div class="col-sm-3">
-			      				<button type="button" class="btn btn-default btn-sm">
-						          	<span class="glyphicon glyphicon-edit"></span>
-						        </button>
-			      			</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm" ng-click="editName=!editName">
+							          	<span class="glyphicon glyphicon-pencil"></span>
+							        </button>
+				      			</div>
 			      			</div>
 			      		</div>
 			      		
 			      		<div class="row">
 			      			<div class="col-sm-9">
-			      			Gender
+			      				<div ng-bind="user.gender" ng-show="!editGender"></div>
+			      				<input ng-model="user.gender" ng-show="editGender" ng-model-options="{ updateOn: 'blur'}">
 			      			</div>
 			      			<div>
-			      			<div class="col-sm-3">
-			      				<button type="button" class="btn btn-default btn-sm">
-						          	<span class="glyphicon glyphicon-edit"></span>
-						        </button>
-			      			</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm" ng-click="editGender=!editGender">
+							          	<span class="glyphicon glyphicon-pencil"></span>
+							        </button>
+				      			</div>
 			      			</div>
 			      		</div>
 			      	</div>
@@ -39,39 +42,85 @@
 				<div class="panel panel-info">
 			      	<div class="panel-heading">Work</div>
 			      	<div class="panel-body">
-			      		<div name="officeAddress">
+			      		<div name="officeAddress" ng-class="{new: isAddNewOffice}">
 			      			<div class="row section-header">
 				      			<div class="col-sm-9">
 				      				<label>Office address</label>
 				      			</div>
 				      			<div class="col-sm-3">
-				      				<button type="button" class="btn btn-default btn-sm">
+				      				<button type="button" class="btn btn-default btn-sm" ng-click="isAddNewOffice=!isAddNewOffice">
 							          	<span class="glyphicon glyphicon-plus"></span>
 							        </button>
 				      			</div>
 			      			</div>
-			      		</div>
-			      		
-			      		<div name="officePhoneNumber">
-				      		<div class="row section-header">
-				      			<div class="col-sm-9">
-				      				<label>Office phone number</label>
-				      			</div>
-				      			<div>
-				      			<div class="col-sm-3">
-				      				<div addbuttonsbutton >
-							        </div>
-				      			</div>
 
+			      			<div class="office-list">
+			      				<div class="office-item" ng-repeat="address in user.offices">
+			      					<div class="row">
+						      			<div class="col-sm-9">
+						      				<div ng-bind="address" ng-show="!addressEdit[$index]"></div>
+						      				<input ng-model="address" ng-show="addressEdit[$index]">
+						      			</div>
+						      			<div>
+							      			<div class="col-sm-3">
+							      				<button type="button" class="btn btn-default btn-sm" ng-click="addressEdit[$index]=!addressEdit[$index]">
+										          	<span class="glyphicon glyphicon-pencil"></span>
+										        </button>
+							      			</div>
+						      			</div>
+						      		</div>
+			      				</div>
+			      			</div>
+
+			      			<div class="well row frmAddProfile new-section" name ="frm_addAddress">
+			      				<div class="form-group">
+			      					<textarea ng-model="newOffice"></textarea>
+			      				</div>
+			      				<div>
+			      					<button class="btn btn-success" ng-click="addNewOffice(newOffice)">Add</button>
+			      				</div>
+			      			</div>
+			      		</div>
+
+			      		<div name="phoneNumber" ng-class="{new: isAddPhoneNumber}">
+			      			<div class="row section-header">
+				      			<div class="col-sm-9">
+				      				<label>Office Phone Number</label>
 				      			</div>
-				      		</div>
-				      		<div class="row">
-				      			<div id="space-for-lst-phone"></div>
-				      		</div>
-				      		<div class="row">
-				      			<div id="space-for-add-info"></div>
-				      		</div>
-				      	</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm" ng-click="isAddPhoneNumber=!isAddPhoneNumber">
+							          	<span class="glyphicon glyphicon-plus"></span>
+							        </button>
+				      			</div>
+			      			</div>
+
+			      			<div class="phone-list">
+			      				<div class="phone-item" ng-repeat="phone in user.phones">
+			      					<div class="row">
+						      			<div class="col-sm-9">
+						      				<div ng-bind="phone" ng-show="!phoneEdit[$index]"></div>
+						      				<input ng-model="phone" ng-show="phoneEdit[$index]">
+						      			</div>
+						      			<div>
+							      			<div class="col-sm-3">
+							      				<button type="button" class="btn btn-default btn-sm" ng-click="phoneEdit[$index]=!phoneEdit[$index]">
+										          	<span class="glyphicon glyphicon-pencil"></span>
+										        </button>
+							      			</div>
+						      			</div>
+						      		</div>
+			      				</div>
+			      			</div>
+
+			      			<div class="well row frmAddProfile new-section" name ="frm_addPhone">
+			      				<div class="form-group">
+			      					<input ng-model="newPhone"></input>
+			      				</div>
+			      				<div>
+			      					<button class="btn btn-success" ng-click="addNewPhone(newPhone)">Add</button>
+			      				</div>
+			      			</div>
+			      		</div>
 
 				      	<div name="medicalEducation">
 				      		<div class="row section-header">

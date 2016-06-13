@@ -8,8 +8,8 @@
  * Controller of the halzaPortalAppApp
  */
 angular.module('halzaPortalAppApp')
-  .controller('LinkedInCallbackCtrl', ['linkedInCallback', '$scope', 'authentication', '$location', '$rootScope',
-    function (linkedInCallback, $scope, authentication, $location, $rootScope) {
+  .controller('LinkedInCallbackCtrl', ['linkedInCallback', '$scope', 'authentication', '$location', '$rootScope', '$state',
+    function (linkedInCallback, $scope, authentication, $location, $rootScope, $state) {
 
       $scope.access_token = "";
       var useCode = "";
@@ -18,24 +18,26 @@ angular.module('halzaPortalAppApp')
         	useCode = linkedInCallback.getUserCode();
       });
 
-      var sendData = $.param({
-          code: useCode
-      });
+      console.log(useCode);
 
       var config = {
-            headers : {
-              'Content-Type': 'application/x-www-form-urlencoded'
-            }
-      }
+        params : {
+            code: useCode
+        }
+      };
 
-      authentication.signInByLinkedin(sendData, config)
+      authentication.signInByLinkedin(config)
         .then(
           function successCallback(response) {
             $scope.access_token = response.data.access_token;
             $rootScope.$broadcast('user:logged', response.data);
-            $location.path("/home");
+            $state.go('home');
 
-        }, function errorCallback(response) {
-            $location.path("/");
+        }
+        , function errorCallback(response) {
+            $state.go('signin');
+            $scope.errMessage=  response.modelState;
+            $scope.isError = true;
       });
+        
   }]);

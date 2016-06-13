@@ -20,7 +20,9 @@ angular
     'ngTouch',
     'googleplus',
     'ui.router',
-    'ui.bootstrap'
+    'ui.bootstrap',
+    'angularSpinner',
+    'ngStorage'
   ])
   .config(['$routeProvider', 'GooglePlusProvider', '$stateProvider', '$locationProvider',
     function ($routeProvider, GooglePlusProvider, $stateProvider, $locationProvider) {
@@ -79,17 +81,26 @@ angular
           }
         })
       .state("updateProfile", {
+          resolve:{
+            user: function($http){
+              // TODO: get user profile
+              return {
+                name: 'Truong Thi Ba',
+                gender:'Female',
+                offices: ['office 1', 'office 2'],
+                phones: ['01695440212', '0196748321']
+              }
+            }
+          },
           url: "/updateProfile",
           parent: 'root',
           views: {
             'content@': {
               templateUrl: 'views/updateProfile.html',
-              controller: "UpdateProfileCtrl"
+              controller: "UpdateProfileCtrl",
+              controllerAs: 'controller'
+              
             }
-          },
-           params: {
-            email: null,
-            accessTocken: null
           }
         });
 

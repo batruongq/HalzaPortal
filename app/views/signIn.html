@@ -1,8 +1,6 @@
 
 <div class="container" ng-controller="SignInCtrl">
 
-<loading></loading>
-
   <div class="row">
     <div class="col-sm-4" id="lMainContent">
     </div>
@@ -23,8 +21,11 @@
             <div class="errMessage alert-danger" ng-show="isError" style="background-color:#fff;">
                 <p>{{errMessage}}</p>
             </div>
+            <div class="form-group isLoading" ng-show="isLoading">
+                <img src="http://www.vascoscs.net/cartera/images/loading.gif" />
+            </div>
             <div class="form-group">
-                <input type="button" value="Login" class="btn btn-success" ng-click="loginByEmail()" />
+                <input type="button" value="Login" class="btn btn-success" ng-click="loginByEmail()" ng-disabled="isLoading" />
             </div>
             <p>--------------------------------or-------------------------------</p>
 
@@ -41,6 +42,10 @@
   </div>
 
 </div>
+
+<!-- <div class="backdrop" ng-show="loading">
+    <span us-spinner="{radius:30, width:8, length: 16}" spinner-on="loading"></span>
+</div> -->
 
 <script type="text/ng-template" id="linkedInLogin.html">
     <div>

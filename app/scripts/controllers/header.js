@@ -8,7 +8,7 @@
  * Controller of the halzaPortalAppApp
  */
 angular.module('halzaPortalAppApp')
-  .controller('HeaderCtrl', function ($scope, $uibModal, $location) {
+  .controller('HeaderCtrl', function ($scope, $uibModal, $location, $state, $rootScope) {
 
     $scope.isLogged = false;
     $scope.user = {};
@@ -29,15 +29,16 @@ angular.module('halzaPortalAppApp')
 
      $scope.signOut = function(){
         $scope.isLogged = false;
-        $location.path("/");
+        $state.go('signin');
      };
   });
 
-  angular.module('halzaPortalAppApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, authentication) {
+  angular.module('halzaPortalAppApp').controller('ModalInstanceCtrl', function ($scope, $uibModalInstance, authentication, $state, $rootScope) {
 
     $scope.errMessage = "";
     $scope.isError = false;
     $scope.continue = function () {
+      $scope.isLoading = true;
       var sendData = $.param({
         UserName: $scope.user.email,
         Password: $scope.user.password,
@@ -52,13 +53,14 @@ angular.module('halzaPortalAppApp')
 
       authentication.register(sendData, config)
             .success(function (dataBack) {
-                console.log(dataBack);
+                $scope.isLoading = false;
                 $uibModalInstance.close();
+                $rootScope.$broadcast('user:logged', dataBack);
+                $state.go('home');
             })
             .error(function (error) {
-                console.log('233');
+                $scope.isLoading = false;
                 $scope.errMessage = error.modelState;
-                console.log(error.modelState);
                 $scope.isError = true;
             });
     

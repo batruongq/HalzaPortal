@@ -8,16 +8,21 @@
  * Controller of the halzaPortalAppApp
  */
 angular.module('halzaPortalAppApp')
-  .controller('SignInCtrl', ['$scope', 'GooglePlus', '$http', '$location', '$cookies','$rootScope', 
-    'authentication','$stateParams', 'linkedInCallback',
-  	function ($scope, GooglePlus, $http, $location, $cookies, $rootScope, authentication, 
-      $stateParams, linkedInCallback) {
+  .controller('SignInCtrl', ['$scope', 'GooglePlus', '$http', '$state', '$cookies','$rootScope', 
+    'authentication','$stateParams', 'linkedInCallback', '$localStorage',
+  	function ($scope, GooglePlus, $http, $state, $cookies, $rootScope, authentication, 
+      $stateParams, linkedInCallback, $localStorage) {
+
+       if($localStorage.access_token != undefined){
+           $state.go("home");          
+       }
 
        $scope.user = {username: "", password: "", accessToken: "", isRemember: false};
        $scope.isRemember = false;
        $scope.errMessage = "";
        $scope.isError = false;
        $scope.access_token = "";
+       $scope.isLoading = false;
 
        var  config = {
             headers : {
@@ -25,16 +30,9 @@ angular.module('halzaPortalAppApp')
             }
         };
 
-       //Request get accessToken to verify the user logged in or not
-       // authentication.getAccessToken()
-       // .then(function successCallback(response) {
-
-       //  }, function errorCallback(response) {
-       //  });
-
         //sign in by email
         $scope.loginByEmail = function () {
-            $scope.loading = true;
+            $scope.isLoading = true;
             var sendData = $.param({
                 username: $scope.user.username,
                 password: $scope.user.password,
@@ -44,15 +42,19 @@ angular.module('halzaPortalAppApp')
 
             authentication.signIn(sendData, config)
             .success(function (dataBack) {
+                $scope.isLoading = false;
                 $scope.access_token = dataBack.access_token;
                 $rootScope.$broadcast('user:logged', dataBack);
-                $location.path("/home");
+                if($scope.isRemember){
+                    $localStorage.access_token = dataBack.access_token;
+                }
+                $state.go("home");
             })
             .error(function (error) {
+                $scope.isLoading = false;
                 $scope.errMessage=  error.error_description;
                 $scope.isError = true;
             });
-            $scope.loading = false;
         };
 
     	//sign in by google
@@ -68,15 +70,17 @@ angular.module('halzaPortalAppApp')
                 });
 
                 authentication.signInByGoogle(sendData, config)
-                .then(function successCallback(response) {
+                .success(function (response) {
                     $scope.access_token = response.data.access_token;
                     $rootScope.$broadcast('user:logged', response.data);
-                    $location.path("/home");
+                    $state.go("home");
 
-                }, function errorCallback(response) {
-                    $scope.errMessage=  response.status;
+                })
+                .error (function (response) {
+                    $scope.errMessage=  response.modelState;
                     $scope.isError = true;
                 });
+                
             });
         }, function (err) {
             console.log(err);
