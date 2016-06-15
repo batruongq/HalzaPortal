@@ -60,16 +60,6 @@ angular
             }
           }
         })
-      .state("testmodal", {
-          url: "/test",
-          parent: 'root',
-          views: {
-            'content@': {
-              templateUrl: 'views/modal.html',
-              controller: "ModalDemoCtrl"
-            }
-          }
-        })
       .state("linkedCallBack", {
           url: "/callback",
           parent: 'root',
@@ -82,14 +72,15 @@ angular
         })
       .state("updateProfile", {
           resolve:{
-            user: function($http){
+            user: function(userService, authentication, $sessionStorage, $localStorage, $http){
               // TODO: get user profile
-              return {
-                name: 'Truong Thi Ba',
-                gender:'Female',
-                offices: ['office 1', 'office 2'],
-                phones: ['01695440212', '0196748321']
+              var user = authentication.getUser();
+              var sendData = {
+                params : {
+                  username: user.userName
+                }
               }
+              return userService.getProfile(sendData);
             }
           },
           url: "/updateProfile",
@@ -106,34 +97,25 @@ angular
 
        $locationProvider.html5Mode(true);
 
-    // $routeProvider
-    //   .when('/', {
-    //     templateUrl: 'views/main.html',
-    //     controller: 'MainCtrl',
-    //     controllerAs: 'main'
-    //   })
-    //   .when('/about', {
-    //     templateUrl: 'views/about.html',
-    //     controller: 'AboutCtrl',
-    //     controllerAs: 'about'
-    //   })
-    //   .when('/signup', {
-    //     templateUrl: 'views/signUp.html',
-    //     controller: 'SignUpCtrl',
-    //     controllerAs: 'signUp'
-    //   })
-    //   .when('/home', {
-    //     templateUrl: 'views/home.html',
-    //     controller: 'HomeCtrl',
-    //     controllerAs: 'home'
-    //   })
-    //   .otherwise({
-    //     redirectTo: '/'
-    //   });
-
       GooglePlusProvider.init({
       clientId: '287960208155-j02ht1m0pi7r96kj6mm2jscfalkjhgt2.apps.googleusercontent.com',
       clientSecret: 'oscasdvLBpGKnZTErzRdmBXO'
     });
       GooglePlusProvider.setScopes('profile email');      
+  }])
+  .run(['$rootScope', '$state', '$timeout', '$http', 'authentication', function ($rootScope, $state, $timeout, $http, authentication) {
+    $rootScope.$on('$stateChangeStart', function(event, state, params)
+    {
+      var without_login_states = ['signin', 'linkedCallBack'];
+
+      if($.inArray( state.name, without_login_states )<0 && !authentication.authorize()) {
+        $timeout(function() {
+          $state.go('signin');
+        });
+      }
+
+      if(authentication.authorize()) {
+          $http.defaults.headers.common.Authorization = authentication.getUser().access_token;
+      }
+    });
   }]);

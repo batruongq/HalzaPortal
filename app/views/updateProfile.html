@@ -3,42 +3,49 @@
 	<h3 class="header">About</h3>
 	<div class="row">
 		<div class="col-sm-3">
-			<img src="/images/profile.png" id="imgProfile" class="img-rounded" alt="profile picture" width="100%"/>
+			<img src="{{userProfiles.photo}}" id="imgProfile" class="img-rounded" alt="profile picture" width="100%"/>
+			
+			<input type="file" id="file1" name="file" multiple
+            ng-files="getTheFiles($files)" />
+
+        	<input type="button" ng-click="uploadFiles()" value="Upload" />
+
 		</div>
 		<div class="col-sm-9">
 			<div class="panel-group">
 				<div class="panel panel-info">
-			      <div class="panel-heading">Overview</div>
-			      <div class="panel-body">
+			      	<div class="panel-heading">Overview</div>
+			      	<div class="panel-body">
 			      		<div class="row">
 			      			<div class="col-sm-9">
-			      				<div ng-bind="user.name" ng-show="!editName"></div>
-			      				<input ng-model="user.name" ng-show="editName" ng-model-options="{ updateOn: 'blur'}">
+			      				<div ng-bind="userProfiles.fullName" ng-show="!editName"></div>
+			      				<input ng-model="userProfiles.fullName" ng-show="editName" ng-model-options="{ updateOn: 'blur'}">
 			      			</div>
 			      			<div>
 				      			<div class="col-sm-3">
-				      				<button type="button" class="btn btn-default btn-sm" ng-click="editName=!editName">
+				      				<button type="button" class="updateInfor" ng-click="	editName=!editName">
 							          	<span class="glyphicon glyphicon-pencil"></span>
 							        </button>
 				      			</div>
 			      			</div>
 			      		</div>
 			      		
-			      		<div class="row">
+			      		<!-- <div class="row">
 			      			<div class="col-sm-9">
 			      				<div ng-bind="user.gender" ng-show="!editGender"></div>
 			      				<input ng-model="user.gender" ng-show="editGender" ng-model-options="{ updateOn: 'blur'}">
 			      			</div>
 			      			<div>
 				      			<div class="col-sm-3">
-				      				<button type="button" class="btn btn-default btn-sm" ng-click="editGender=!editGender">
+				      				<button type="button" class="updateInfor" ng-click="editGender=!editGender">
 							          	<span class="glyphicon glyphicon-pencil"></span>
 							        </button>
 				      			</div>
 			      			</div>
-			      		</div>
+			      		</div> -->
 			      	</div>
 			    </div>
+
 				<div class="panel panel-info">
 			      	<div class="panel-heading">Work</div>
 			      	<div class="panel-body">
@@ -53,25 +60,23 @@
 							        </button>
 				      			</div>
 			      			</div>
-
 			      			<div class="office-list">
-			      				<div class="office-item" ng-repeat="address in user.offices">
+			      				<div class="office-item" ng-repeat="address in userProfiles.officeAddress">
 			      					<div class="row">
 						      			<div class="col-sm-9">
 						      				<div ng-bind="address" ng-show="!addressEdit[$index]"></div>
-						      				<input ng-model="address" ng-show="addressEdit[$index]">
+						      				<input ng-model="address" ng-show="addressEdit[$index]" />
 						      			</div>
 						      			<div>
 							      			<div class="col-sm-3">
-							      				<button type="button" class="btn btn-default btn-sm" ng-click="addressEdit[$index]=!addressEdit[$index]">
+							      				<button type="button" class="updateInfor" ng-click="addressEdit[$index]=!addressEdit[$index]">
 										          	<span class="glyphicon glyphicon-pencil"></span>
 										        </button>
 							      			</div>
 						      			</div>
-						      		</div>
+						      		</div
 			      				</div>
 			      			</div>
-
 			      			<div class="well row frmAddProfile new-section" name ="frm_addAddress">
 			      				<div class="form-group">
 			      					<textarea ng-model="newOffice"></textarea>
@@ -95,7 +100,7 @@
 			      			</div>
 
 			      			<div class="phone-list">
-			      				<div class="phone-item" ng-repeat="phone in user.phones">
+			      				<div class="phone-item" ng-repeat="phone in userProfiles.phones">
 			      					<div class="row">
 						      			<div class="col-sm-9">
 						      				<div ng-bind="phone" ng-show="!phoneEdit[$index]"></div>
@@ -103,7 +108,7 @@
 						      			</div>
 						      			<div>
 							      			<div class="col-sm-3">
-							      				<button type="button" class="btn btn-default btn-sm" ng-click="phoneEdit[$index]=!phoneEdit[$index]">
+							      				<button type="button" class="updateInfor" ng-click="phoneEdit[$index]=!phoneEdit[$index]">
 										          	<span class="glyphicon glyphicon-pencil"></span>
 										        </button>
 							      			</div>

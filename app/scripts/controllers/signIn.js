@@ -8,27 +8,12 @@
  * Controller of the halzaPortalAppApp
  */
 angular.module('halzaPortalAppApp')
-  .controller('SignInCtrl', ['$scope', 'GooglePlus', '$http', '$state', '$cookies','$rootScope', 
-    'authentication','$stateParams', 'linkedInCallback', '$localStorage',
-  	function ($scope, GooglePlus, $http, $state, $cookies, $rootScope, authentication, 
-      $stateParams, linkedInCallback, $localStorage) {
+  .controller('SignInCtrl', ['$scope', '$http', '$state', 'GooglePlus','authentication', 'linkedInCallback',
+  	function ($scope, $http, $state, GooglePlus, authentication, linkedInCallback) {
 
-       if($localStorage.access_token != undefined){
-           $state.go("home");          
-       }
-
-       $scope.user = {username: "", password: "", accessToken: "", isRemember: false};
-       $scope.isRemember = false;
        $scope.errMessage = "";
        $scope.isError = false;
-       $scope.access_token = "";
        $scope.isLoading = false;
-
-       var  config = {
-            headers : {
-                'Content-Type': 'application/x-www-form-urlencoded'
-            }
-        };
 
         //sign in by email
         $scope.loginByEmail = function () {
@@ -36,23 +21,16 @@ angular.module('halzaPortalAppApp')
             var sendData = $.param({
                 username: $scope.user.username,
                 password: $scope.user.password,
-                //isRemember: $scope.user.isRemember,
+                remember: $scope.user.isRemember,
                 grant_type: "password"
             });
 
-            authentication.signIn(sendData, config)
-            .success(function (dataBack) {
+            authentication.signIn(sendData, function () {
                 $scope.isLoading = false;
-                $scope.access_token = dataBack.access_token;
-                $rootScope.$broadcast('user:logged', dataBack);
-                if($scope.isRemember){
-                    $localStorage.access_token = dataBack.access_token;
-                }
-                $state.go("home");
-            })
-            .error(function (error) {
+                $state.go("home", {}, {reload: true});
+            }, function (errorResponse) {
                 $scope.isLoading = false;
-                $scope.errMessage=  error.error_description;
+                $scope.errMessage=  errorResponse.error_description;
                 $scope.isError = true;
             });
         };
@@ -60,32 +38,24 @@ angular.module('halzaPortalAppApp')
     	//sign in by google
     	$scope.loginByGoogle = function () {
         GooglePlus.login().then(function (authResult) {
-             
             GooglePlus.getUser().then(function (user) {
                 var sendData = $.param({
-                provider: 'Google',
-                externalAccessToken: authResult.access_token,
-                userName: user.email,
-                userId: user.id
+                    provider: 'Google',
+                    externalAccessToken: authResult.access_token,
+                    userName: user.email,
+                    userId: user.id
                 });
-
-                authentication.signInByGoogle(sendData, config)
-                .success(function (response) {
-                    $scope.access_token = response.data.access_token;
-                    $rootScope.$broadcast('user:logged', response.data);
-                    $state.go("home");
-
-                })
-                .error (function (response) {
+                authentication.signInByGoogle(sendData, function() {
+                    $state.go("home", {}, {reload: true});
+                }, function (response) {
                     $scope.errMessage=  response.modelState;
                     $scope.isError = true;
                 });
-                
             });
-        }, function (err) {
-            console.log(err);
-        });
-    };
+            }, function (err) {
+                console.log(err);
+            });
+        };
     
 	   //sign in by linked in
      $scope.loginByLinkedIn = function(){

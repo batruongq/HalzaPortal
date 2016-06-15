@@ -3,15 +3,25 @@
         <h3 class="modal-title">Sign Up By Email</h3>
     </div>
     <div class="modal-body">
+    <form role="form" ng-submit="continue()" name="userForm" novalidate>
         <div class="form-group" >
-            <div class="form-group">
-                <input ng-model="user.email" placeholder="Email" class="form-control" name ="email" />
+            <div class="form-group" ng-class="{ 'has-error' : userForm.email.$invalid && !userForm.email.$pristine }">
+                <input ng-model="user.email" placeholder="Email" class="form-control" name ="email" type ="email" required />
+                <p ng-show="userForm.email.$error.required && userForm.email.$dirty" class="help-block">This field is required</p>
+                <p ng-show="!userForm.email.$error.required && userForm.email.$error.email && userForm.email.$dirty" class="help-block">The email is invalid</p>
+
             </div>
-            <div class="form-group">
-                <input type="password" ng-model="user.password" placeholder="Password" class="form-control" name="password" />
+            <div class="form-group" ng-class="{ 'has-error' : userForm.password.$invalid && !userForm.password.$pristine }">
+                <input type="password" ng-model="user.password" placeholder="Password" class="form-control" name="password" ng-minlength="6" required />
+                <p ng-show="userForm.password.$error.required && userForm.password.$dirty" class="help-block">This field is required</p>
+                <p ng-show="!userForm.password.$error.required && userForm.password.$error.minlength && userForm.password.$dirty" class="help-block">Passwords must be at least 6 characters.</p>
+
             </div>
-            <div class="form-group">
-                <input type="password" ng-model="user.confirmPassword" placeholder="Retype Password" class="form-control" name="confirmPassword" />
+            <div class="form-group" ng-class="{ 'has-error' : userForm.confirmPassword.$invalid && !userForm.confirmPassword.$pristine }">
+                <input type="password" ng-model="user.confirmPassword" placeholder="Retype Password" class="form-control" name="confirmPassword" required compare-to="user.password" />
+                <p ng-show="userForm.confirmPassword.$error.required && userForm.confirmPassword.$dirty" class="help-block">Please confirm your password.</p>
+                <p ng-show="userForm.confirmPassword.$error.compare-to && userForm.confirmPassword.$dirty " class="help-block">Passwords do not match.</p>
+                
             </div>
 
             <div class="errMessage alert-danger" ng-show="isError" style="background-color:#fff;">
@@ -19,46 +29,14 @@
             </div>
 
         </div>
-    </div>
-    <div class="form-group isLoading" ng-show="isLoading">
+        <div class="form-group isLoading" ng-show="isLoading">
         <img src="http://www.vascoscs.net/cartera/images/loading.gif" />
     </div>
     <div class="form-group btnGroup" >
-            <button class="btn btn-success" type="button" ng-click="continue()" ng-disabled="isLoading">Continue</button>
+            <button class="btn btn-success" type="submit" ng-disabled="userForm.$invalid || isLoading">Continue</button>
             <button class="btn btn-warning" type="button" ng-click="cancel()">Cancel</button>
-        </div>
+    </div>
+    </form>
+    </div>
+
 <!-- </form> -->
-
-<script>
-	$(document).ready(function() {
-    $('#frmSignup').formValidation({
-        framework: 'bootstrap',
-        icon: {
-            valid: 'glyphicon glyphicon-ok',
-            invalid: 'glyphicon glyphicon-remove',
-            validating: 'glyphicon glyphicon-refresh'
-        },
-        fields: {
-            confirmPassword: {
-                validators: {
-                    identical: {
-                        field: 'password',
-                        message: 'The password and its confirm are not the same'
-                    }
-                }
-            },
-            email:{
-            	validators: {
-                        regexp: {
-                            regexp: '^[^@\\s]+@([^@\\s]+\\.)+[^@\\s]+$',
-                            message: 'The value is not a valid email address'
-                        }
-                    }
-            }
-        }
-    });
-
-   
-});
-
-</script>

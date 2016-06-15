@@ -176,3 +176,12 @@ legend.login-border {
 .isLoading{
   padding-left: 290px;
 }
+
+.updateInfor{
+  background-color: #ffffff;
+  border:none;
+}
+
+.updateInfor span{
+  background-color: #ffffff;
+}

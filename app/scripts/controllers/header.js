@@ -8,16 +8,11 @@
  * Controller of the halzaPortalAppApp
  */
 angular.module('halzaPortalAppApp')
-  .controller('HeaderCtrl', function ($scope, $uibModal, $location, $state, $rootScope) {
+  .controller('HeaderCtrl', function ($scope, $uibModal, $state, $sessionStorage, $localStorage) {
 
     $scope.isLogged = false;
-    $scope.user = {};
-
-    $scope.$on('user:logged', function(event, user) {
-      $scope.user = user;
-      $scope.user.email = user.userName;
-      $scope.isLogged = true;
-    });
+    $scope.user = $sessionStorage.user || $localStorage.user;
+    $scope.isLogged = $scope.user || false;
 
      $scope.openSignupPopup = function(){
         var modalInstance = $uibModal.open({
@@ -28,6 +23,7 @@ angular.module('halzaPortalAppApp')
      };
 
      $scope.signOut = function(){
+        delete $sessionStorage.user;
         $scope.isLogged = false;
         $state.go('signin');
      };
@@ -45,30 +41,21 @@ angular.module('halzaPortalAppApp')
         ConfirmPassword: $scope.user.confirmPassword
       });
 
-      var config = {
-        headers : {
-            'Content-Type': 'application/x-www-form-urlencoded'
-        }
-      }
-
-      authentication.register(sendData, config)
-            .success(function (dataBack) {
+      authentication.register(sendData, function () {
                 $scope.isLoading = false;
                 $uibModalInstance.close();
-                $rootScope.$broadcast('user:logged', dataBack);
-                $state.go('home');
-            })
-            .error(function (error) {
+                $state.go("home", {}, {reload: true});
+            }, function (error) {
                 $scope.isLoading = false;
                 $scope.errMessage = error.modelState;
                 $scope.isError = true;
-            });
-    
-  };
+            })
+            
+      };
 
-  $scope.cancel = function () {
-    $uibModalInstance.dismiss('cancel');
-  };
+      $scope.cancel = function () {
+        $uibModalInstance.dismiss('cancel');
+      };
 });
 
 
