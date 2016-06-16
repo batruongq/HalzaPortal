@@ -82,6 +82,11 @@ body {
   }
 }
 
+
+.left-content{
+  background-image: url("/images/left.jpg");
+}
+
 #frmSignup{
   width: 300px;
   margin: 0 auto;
@@ -142,10 +147,6 @@ legend.login-border {
   padding-top: 30px;
 }
 
-.frmAddProfile input, .frmAddProfile textarea{
-  width: 60%;
-}
-
 .frmAddProfile.well{
     margin: 15px 0;
 }
@@ -177,11 +178,33 @@ legend.login-border {
   padding-left: 290px;
 }
 
-.updateInfor{
-  background-color: #ffffff;
-  border:none;
+.list{
+  padding-left: 30px;
+  padding-bottom: 20px;
+  line-height: 2;
 }
 
-.updateInfor span{
-  background-color: #ffffff;
+.list-item{
+  word-break: break-word;
+}
+
+.btn-action{
+  float: right;
+  margin-right: 0;
+}
+.frm-profile-update textarea, .frm-profile-update input{
+  width: 100%;
+  max-width: 300px;
+  max-height: 200px;
+}
+#btnSaveProfile{
+  margin-left: 88%;
+}
+
+#btnSaveProfile, .frm-profile-update .panel-primary{
+  margin-bottom: 15px;
+}
+
+.errorMess{
+  color: #a94442;
 }

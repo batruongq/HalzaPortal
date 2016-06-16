@@ -5,16 +5,16 @@ var compareTo = function() {
             otherModelValue: "=compareTo"
         },
         link: function(scope, element, attributes, ngModel) {
-             
+           
             ngModel.$validators.compareTo = function(modelValue) {
                 return modelValue == scope.otherModelValue;
             };
- 
+            
             scope.$watch("otherModelValue", function() {
                 ngModel.$validate();
             });
         }
     };
 };
- 
+
 angular.module('halzaPortalAppApp').directive("compareTo", compareTo);
