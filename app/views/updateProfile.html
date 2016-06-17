@@ -1,0 +1,312 @@
+<div class="container well frm-profile-update">
+	<h3 class="header">About</h3>
+	<div class="row">
+		<div class="col-sm-3 secProfile">
+			<div id="imgProfile">
+				<img src="{{userProfiles.photo}}"  class="img-rounded" alt="" width="140px" height="150px" />
+			</div>
+			<input type="file" name="file" id="file" class="inputfile" onchange="angular.element(this).scope().changePhotoProfile(this)" />
+			<label for="file">Photo</label>
+
+		</div>
+		<div class="col-sm-9">
+			<div class="row">
+				<div class="col-sm-6">
+					<span ng-show="showAddSuccesMessage" class="successMess">{{successAddMsg}}</span>
+					<span ng-show="showSaveSuccesMessage" class="successMess">{{successSaveMsg}}</span>
+					<span ng-show="showSaveErrorMessage" class="errorMess">{{errorSaveMsg}}</span>
+					<div class="form-group isLoading" ng-show="isLoading">
+		                <img src="http://www.vascoscs.net/cartera/images/loading.gif" />
+		            </div>
+				</div>
+				<div class="col-sm-6">
+					<button class="btn btn-primary btn-action" id="btnSaveProfile" ng-click="updateProfile(userProfiles)" ng-disabled="isLoading">Save</button>
+				</div>
+			</div>
+			<div class="panel-group">
+				<div class="panel panel-primary">
+			      	<div class="panel-heading">Overview</div>
+			      	<div class="panel-body">
+			      		<div class="row section-header col-sm-12">
+				      		<label>Full name</label>
+			      		</div>
+			      		<div class="row">
+			      			<div class="col-sm-9 list-item">
+			      				<div ng-show="!userProfiles.fullName && !editName" style="font-style:italic;">Please input your name</div>
+			      				<div ng-bind="userProfiles.fullName" ng-show="!editName"></div>
+			      				<input ng-model="userProfiles.fullName" ng-show="editName" ng-model-options="{ updateOn: 'blur'}" maxlength="50">
+			      			</div>
+			      			<div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn-action btn-edit" ng-click="	editName=!editName" data-toggle="tooltip" title="Update full name">
+							          	<span class="glyphicon glyphicon-pencil"></span>
+							        </button>
+				      			</div>
+			      			</div>
+			      		</div>
+			      		<div class="row section-header col-sm-12">
+				      		<label>Gender</label>
+			      		</div>
+			      		<div class="row">
+			      			<div class="col-sm-9">
+			      				<select ng-model="userProfiles.isFemale" ng-options="gender.id as gender.name for gender in [{id:true, name:'Female'}, {id:false, name:'Male'}]" style="padding:3px;"></select>
+			      		
+			      			</div>
+			      			<div class="col-sm-3">
+			      			</div>
+			      		</div> 
+			      	</div>
+			    </div>
+
+				<div class="panel panel-primary">
+			      	<div class="panel-heading">Work</div>
+			      	<div class="panel-body">
+
+			      		<!-- officeAddress -->
+
+			      		<div name="officeAddress" ng-class="{new: isAddNewOffice}">
+			      			<div class="row section-header">
+				      			<div class="col-sm-9">
+				      				<label>Office address</label>
+				      			</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm btn-action" ng-click="openAddNewOffice()" data-toggle="tooltip" title="Add more office address">
+							          	<span class="glyphicon glyphicon-plus"></span>
+							        </button>
+				      			</div>
+			      			</div>
+			      			<div class="office-list list">
+			      				<div class="office-item" ng-repeat="address in userProfiles.officeAddress">
+			      					<div class="row">
+						      			<div class="col-sm-9 list-item">
+						      				<div ng-bind="address" ng-show="!addressEdit[$index]"></div>
+						      				<textarea ng-model="userProfiles.officeAddress[$index]" ng-show="addressEdit[$index]" maxlength="100" ng-model-options="{ updateOn: 'blur'}"></textarea>
+						      			</div>
+						      			<div>
+							      			<div class="col-sm-3">
+							      				<button type="button" class="btn-action" ng-click="addressEdit[$index]=!addressEdit[$index]" data-toggle="tooltip" title="Edit">
+										          	<span class="glyphicon glyphicon-pencil"></span>
+										        </button>
+										        <button type="button" class="btn-action btn-delete" ng-click="userProfiles.officeAddress.splice($index, 1)" data-toggle="tooltip" title="Remove">
+							          				<span class="glyphicon glyphicon-remove"></span>
+							        			</button>
+							      			</div>
+						      			</div>
+						      		</div>
+			      				</div>
+			      			</div>
+			      			<div class="well row frmAddProfile new-section" name ="frm_addAddress">
+			      				<form name="frmAddOfficeAddress">
+			      					<span ng-show="officeExist" class="errorMess">This record is existing, please input other values</span>
+			      					<div class="form-group">
+			      					<textarea name="officeName" ng-model="newOffice" maxlength="100" required></textarea>
+				      				</div>
+				      				<div>
+				      					<button class="btn btn-success" ng-click="addNewOffice(newOffice)" ng-disabled="frmAddOfficeAddress.officeName.$invalid">Add</button>
+				      				</div>
+			      				</form>
+			      				
+			      			</div>
+			      		</div>
+			      		
+			      		<!-- phoneNumber -->
+
+			      		<div name="phoneNumber" ng-class="{new: isAddPhoneNumber}">
+			      			<div class="row section-header">
+				      			<div class="col-sm-9">
+				      				<label>Office Phone Number</label>
+				      			</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm btn-action" ng-click="openAddNewPhone()" data-toggle="tooltip" title="Add more office phone number">
+							          	<span class="glyphicon glyphicon-plus"></span>
+							        </button>
+				      			</div>
+			      			</div>
+
+			      			<div class="phone-list list">
+			      				<div class="phone-item" ng-repeat="phone in userProfiles.phones">
+			      					<div class="row">
+						      			<div class="col-sm-9 list-item">
+						      				<div ng-bind="phone" ng-show="!phoneEdit[$index]"></div>
+						      				<input ng-model="userProfiles.phones[$index]" ng-show="phoneEdit[$index]" maxlength="11" ng-model-options="{ updateOn: 'blur'}" />
+						      			</div>
+						      			<div>
+							      			<div class="col-sm-3">
+							      				<button type="button" class="btn-action" ng-click="phoneEdit[$index]=!phoneEdit[$index]" data-toggle="tooltip" title="Edit">
+										          	<span class="glyphicon glyphicon-pencil"></span>
+										        </button>
+										        <button type="button" class="btn-action btn-delete" ng-click="userProfiles.phones.splice($index, 1)" data-toggle="tooltip" title="Remove">
+							          				<span class="glyphicon glyphicon-remove"></span>
+							        			</button>
+							      			</div>
+						      			</div>
+						      		</div>
+			      				</div>
+			      			</div>
+
+			      			<div class="well row frmAddProfile new-section" name ="frm_addPhone">
+			      				<form name="frmAddOfficePhone">
+			      					<div ng-show="phoneExist"><p class="errorMess">This record is existing, please input other values</p></div>
+				      				<div class="form-group">
+				      					<input ng-model="newPhone" maxlength="11" name="newPhone" required />
+				      				</div>
+				      				<div>
+				      					<button class="btn btn-success" ng-click="addNewPhone(newPhone)" ng-disabled="frmAddOfficePhone.newPhone.$invalid">Add</button>
+				      				</div>
+			      				</form>
+			      			</div>
+			      		</div>
+
+			      		<!-- medicinePracticeArea -->
+			      		<div name="medicinePracticeArea" ng-class="{new: isAddMedicinePracticeArea}">
+			      			<div class="row section-header">
+				      			<div class="col-sm-9">
+				      				<label>Medicine Practice Areas</label>
+				      			</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm btn-action" ng-click="openAddNewPracticeArea()" data-toggle="tooltip" title="Add more practice area">
+							          	<span class="glyphicon glyphicon-plus"></span>
+							        </button>
+				      			</div>
+			      			</div>
+
+			      			<div class="practiceArea-list list">
+			      				<div class="practiceArea-item" ng-repeat="practiceArea in userProfiles.practiceAreas">
+			      					<div class="row">
+						      			<div class="col-sm-9 list-item">
+						      				<div ng-bind="practiceArea" ng-show="!practiceAreaEdit[$index]"></div>
+						      				<textarea ng-model="userProfiles.practiceAreas[$index]" ng-show="practiceAreaEdit[$index]" maxlength="100" ng-model-options="{ updateOn: 'blur'}"></textarea>
+						      			</div>
+						      			<div>
+							      			<div class="col-sm-3">
+							      				<button type="button" class="btn-action" ng-click="practiceAreaEdit[$index]=!practiceAreaEdit[$index]" data-toggle="tooltip" title="Edit">
+										          	<span class="glyphicon glyphicon-pencil"></span>
+										        </button>
+										        <button type="button" class="btn-action btn-delete" ng-click="userProfiles.practiceAreas.splice($index, 1)" data-toggle="tooltip" title="Remove">
+							          				<span class="glyphicon glyphicon-remove"></span>
+							        			</button>
+							      			</div>
+						      			</div>
+						      		</div>
+			      				</div>
+			      			</div>
+
+			      			<div class="well row frmAddProfile new-section" >
+			      				<form name ="frmAddPracticeArea">
+			      					<div ng-show="practiceAreaExist">
+			      						<p class="errorMess">This record is existing, please input other values</p>
+			      					</div>
+			      					<div class="form-group">
+			      						<textarea ng-model="newPracticeArea" maxlength="100" required name="newPracticeArea"></textarea>
+				      				</div>
+				      				<div>
+				      					<button class="btn btn-success" ng-click="addNewPracticeArea(newPracticeArea)" ng-disabled="frmAddPracticeArea.newPracticeArea.$invalid">Add</button>
+				      				</div>
+			      				</form>
+			      			</div>
+			      		</div> 
+
+			      		<!-- Medical Educations -->
+			      		<div name="medicalEducation" ng-class="{new: isAddMedicalEducations}">
+			      			<div class="row section-header">
+				      			<div class="col-sm-9">
+				      				<label>Medical Educations</label>
+				      			</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm btn-action" ng-click="openAddNewMedicalEducation()" data-toggle="tooltip" title="Add more medical education">
+							          	<span class="glyphicon glyphicon-plus"></span>
+							        </button>
+				      			</div>
+			      			</div>
+
+			      			<div class="medicalEducation-list list">
+			      				<div class="medicalEducation-item" ng-repeat="medicalEducation in userProfiles.medicalEducations">
+			      					<div class="row">
+						      			<div class="col-sm-9 list-item">
+						      				<div ng-bind="medicalEducation" ng-show="!medicalEducationEdit[$index]"></div>
+						      				<textarea ng-model="userProfiles.medicalEducations[$index]" ng-show="medicalEducationEdit[$index]" maxlength="100" ng-model-options="{ updateOn: 'blur'}"></textarea>
+						      			</div>
+						      			<div>
+							      			<div class="col-sm-3">
+							      				<button type="button" class="btn-action" ng-click="medicalEducationEdit[$index]=!medicalEducationEdit[$index]" data-toggle="tooltip" title="Edit">
+										          	<span class="glyphicon glyphicon-pencil"></span>
+										        </button>
+										         <button type="button" class="btn-action btn-delete" ng-click="userProfiles.medicalEducations.splice($index, 1)" data-toggle="tooltip" title="Remove">
+							          				<span class="glyphicon glyphicon-remove"></span>
+							        			</button>
+							      			</div>
+						      			</div>
+						      		</div>
+			      				</div>
+			      			</div>
+
+			      			<div class="well row frmAddProfile new-section" >
+			      				<form name ="frmAddMedicalEducation">
+			      					<div ng-show="medicalEducationExist">
+			      						<p class="errorMess">This record is existing, please input other values</p>
+			      					</div>
+			      					<div class="form-group">
+			      						<textarea ng-model="newMedicalEducation" maxlength="100" required name="newMedicalEducation"></textarea>
+				      				</div>
+				      				<div>
+				      					<button class="btn btn-success" ng-click="addNewMedicalEducation(newMedicalEducation)" ng-disabled="frmAddMedicalEducation.newMedicalEducation.$invalid">Add</button>
+				      				</div>
+			      				</form>
+			      			</div>
+			      		</div> 
+
+			      		<!-- Awards -->
+			      		<div name="award" ng-class="{new: isAddAward}">
+			      			<div class="row section-header">
+				      			<div class="col-sm-9">
+				      				<label>Awards/Distinctions</label>
+				      			</div>
+				      			<div class="col-sm-3">
+				      				<button type="button" class="btn btn-default btn-sm btn-action" ng-click="openAddNewAward()" data-toggle="tooltip" title="Add more award">
+							          	<span class="glyphicon glyphicon-plus"></span>
+							        </button>
+				      			</div>
+			      			</div>
+
+			      			<div class="award-list list">
+			      				<div class="award-item" ng-repeat="award in userProfiles.awards">
+			      					<div class="row">
+						      			<div class="col-sm-9 list-item">
+						      				<div ng-bind="award" ng-show="!awardEdit[$index]"></div>
+						      				<textarea ng-model="userProfiles.awards[$index]" ng-show="awardEdit[$index]" maxlength="100" ng-model-options="{ updateOn: 'blur'}"></textarea>
+						      			</div>
+						      			<div>
+							      			<div class="col-sm-3">
+							      				<button type="button" class="btn-action" ng-click="awardEdit[$index]=!awardEdit[$index]" data-toggle="tooltip" title="Edit">
+										          	<span class="glyphicon glyphicon-pencil"></span>
+										        </button>
+										        <button type="button" class="btn-action btn-delete" ng-click="userProfiles.awards.splice($index, 1)" data-toggle="tooltip" title="Remove">
+							          				<span class="glyphicon glyphicon-remove"></span>
+							        			</button>
+							      			</div>
+						      			</div>
+						      		</div>
+			      				</div>
+			      			</div>
+
+			      			<div class="well row frmAddProfile new-section" >
+			      				<form name ="frmAddAward">
+			      					<div ng-show="awardExist">
+			      						<p class="errorMess">This record is existing, please input other values</p>
+			      					</div>
+			      					<div class="form-group">
+			      						<textarea ng-model="newAward" maxlength="100" required name="newAward"></textarea>
+				      				</div>
+				      				<div>
+				      					<button class="btn btn-success" ng-click="addNewAward(newAward)" ng-disabled="frmAddAward.newAward.$invalid">Add</button>
+				      				</div>
+			      				</form>
+			      			</div>
+			      		</div>
+
+			      	</div>
+			    </div>
+			</div>
+		</div>
+	</div>
+</div>
