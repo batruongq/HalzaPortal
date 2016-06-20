@@ -22,7 +22,9 @@
   'ui.router',
   'ui.bootstrap',
   'angularSpinner',
-  'ngStorage'
+  'ngStorage',
+  'oitozero.ngSweetAlert',
+  'ngMaterial'
   ])
  .config(['$routeProvider', 'GooglePlusProvider', '$stateProvider', '$locationProvider',
   function ($routeProvider, GooglePlusProvider, $stateProvider, $locationProvider) {
@@ -51,6 +53,11 @@
       }
     })
     .state("home", {
+      resolve:{
+        user: function(userService){
+              return userService.getProfile();
+            }
+      },
       url: "/home",
       parent: 'root',
       views: {
@@ -72,15 +79,7 @@
     })
     .state("updateProfile", {
       resolve:{
-        user: function(userService, authentication, $sessionStorage, $localStorage, $http){
-              // TODO: get user profile
-              // var user = authentication.getUser();
-              // var sendData = {
-              //   params : {
-              //     email: user.userName
-              //   }
-              // }
-              //return userService.getProfile(sendData);
+        user: function(userService){
               return userService.getProfile();
             }
           },
@@ -91,7 +90,7 @@
               templateUrl: 'views/updateProfile.html',
               controller: "UpdateProfileCtrl",
               controllerAs: 'controller'
-              
+
             }
           }
         });
@@ -102,7 +101,8 @@
       clientId: '287960208155-j02ht1m0pi7r96kj6mm2jscfalkjhgt2.apps.googleusercontent.com',
       clientSecret: 'oscasdvLBpGKnZTErzRdmBXO'
     });
-    GooglePlusProvider.setScopes('profile email');      
+    GooglePlusProvider.setScopes('profile email');
+
   }])
  .run(['$rootScope', '$state', '$timeout', '$http', 'authentication', function ($rootScope, $state, $timeout, $http, authentication) {
   $rootScope.$on('$stateChangeStart', function(event, state, params)
@@ -130,6 +130,7 @@
       signInByGoogle:  'http://192.168.190.92:3003/api/Account/ObtainLocalAccessToken',
       signInByLinkedIn:  'http://192.168.190.92:3003/api/Account/requestLinkedInToken',
       getProfile: 'http://192.168.190.92:3003/api/Account/GetUser',
-      updateProfile: 'http://192.168.190.92:3003/api/Account/EditProfile'
+      updateProfile: 'http://192.168.190.92:3003/api/Account/EditProfile',
+      linkedClientId: '75auoha37nqt11'
   }
 );

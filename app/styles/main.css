@@ -10,31 +10,47 @@ body {
 }
 
 /* Everything but the jumbotron gets side spacing for mobile first views */
-.header,
 .marketing,
 .footer {
-  padding-left: 15px;
-  padding-right: 15px;
+  background-color: #399def;
 }
 
-/* Custom page header */
-.header {
-  border-bottom: 1px solid #e5e5e5;
-  margin-bottom: 10px;
+.header{
+  background-color: #399def;
+
 }
-/* Make the masthead heading the same height as the navigation */
-.header h3 {
-  margin-top: 0;
-  margin-bottom: 0;
-  line-height: 40px;
-  padding-bottom: 19px;
+
+.header a{
+  color: white;
+}
+
+.header a:hover{
+  color: black;
+}
+
+.right{
+  float: right;
+  padding-right: 30px;
+  padding-top: 20px;
+}
+
+.left{
+  float: left;
+  padding-left: 20px;
+  padding-top: 5px;
+}
+
+.title{
+  font-weight: bold;
 }
 
 /* Custom page footer */
 .footer {
-  padding-top: 19px;
-  color: #777;
-  border-top: 1px solid #e5e5e5;
+  min-height: 60px;
+  padding-top: 30px;
+  text-align: right;
+  min-width: 900px;
+  margin-left: -15px;
 }
 
 .container-narrow > hr {
@@ -72,19 +88,22 @@ body {
     padding-left: 0;
     padding-right: 0;
   }
-  /* Space out the masthead */
-  .header {
-    margin-bottom: 30px;
-  }
   /* Remove the bottom border on the jumbotron for visual effect */
   .jumbotron {
     border-bottom: 0;
   }
 }
 
+.main{
+  /*background-image: url("/images/bg-top.jpg");*/
+  font-size: 1.0em;
+  /*min-height: 800px;*/
+  background: #f5f8c5 none repeat scroll
+}
 
-.left-content{
-  background-image: url("/images/left.jpg");
+.center-content{
+  background-color: white;
+  min-width: 900px;
 }
 
 #frmSignup{
@@ -97,44 +116,28 @@ body {
   width: 100%;
 }
 
-#mainContent{
-  margin-top: 100px;
+.lcontent{
+  background-color: #399def;
+  min-height: 600px;
+  margin: 0 auto;
+  padding-top: 30px;
+  line-height: 1;
 }
 
-#lMainContent{
-    background-image: url("/images/wellcomeIcon.jpg");
-    background-position: center center;
-    background-repeat: no-repeat;
-    background-size: 100% 400px;
-    height: 500px;
-    margin: 0 auto;
+#frm-login{
+  text-align: center;
 }
 
-#rMainContent{
-  padding-left: 100px;
+div[name=remember]{
+  text-align: left;
 }
 
-fieldset.login-border {
-    border: 2px groove #ddd !important;
-    padding: 0 1.4em 1.4em 1.4em !important;
-    margin: 0 0 1.5em 0 !important;
-    -webkit-box-shadow:  0px 0px 0px 0px #000;
-            box-shadow:  0px 0px 0px 0px #000;
-}
 
-legend.login-border {
-    width:inherit; /* Or auto */
-    padding:0 10px; /* To give a bit of padding on the left and right */
-    border-bottom:none;
 
-}
-
-#rMainContent input{
-  width: 100%;
-}
-
-#rMainContent input[type="checkbox"]{
-  width: auto;
+.rcontent{
+  background: url("/images/bg.jpg");
+  min-height: 600px;
+  background-size: cover;
 }
 
 .halHeader{
@@ -148,7 +151,7 @@ legend.login-border {
 }
 
 .frmAddProfile.well{
-    margin: 15px 0;
+  margin: 15px 0;
 }
 
 .btnGroup, .secProfile{
@@ -217,17 +220,17 @@ legend.login-border {
 }
 
 .inputfile + label {
-    font-size: 0.9em;
-    font-weight: 700;
-    color: black;
-    /*background-color: #337ab7;*/
-    display: inline-block;
+  font-size: 0.9em;
+  font-weight: 700;
+  color: black;
+  /*background-color: #337ab7;*/
+  display: inline-block;
 }
 
 .inputfile:focus + label,
 .inputfile + label:hover {
-    /*background-color: red;*/
-    color: #337ab7;
+  /*background-color: red;*/
+  color: #337ab7;
 }
 
 .inputfile + label {
@@ -241,18 +244,71 @@ legend.login-border {
 
 .successMess{
   color:green;
-  font-weight: 
+  font-weight:
 }
 
 .errorMess{
   color:red;
-  font-weight: 
+  font-weight:
 }
 
 #imgProfile{
-    width: 140px;
-    height: 150px;
-    border: 1px solid #ccc;
-    border-radius: 6px;
+  width: 100%;
+  height: 200px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
+
+.icon{
+  width: 18px;
+  height: auto;
+  padding-top: 5px;
+}
+
+.icon:hover{
+  cursor: pointer;
+}
+
+.center-content [name=mainContent]{
+  min-height: 600px;
+}
+
+[name=mainContent] .lMain{
+  min-height: inherit;
+}
+
+[name=mainContent] .rMain{
+  min-height: inherit;
+  background-color: #ccc;
+}
+
+.tabsdemoDynamicHeight md-content {
+  background-color: transparent !important; }
+  .tabsdemoDynamicHeight md-content md-tabs {
+    background: #f6f6f6;
+    border: 1px solid #e1e1e1; }
+    .tabsdemoDynamicHeight md-content md-tabs md-tabs-wrapper {
+      background: white; }
+      .tabsdemoDynamicHeight md-content h1:first-child {
+        margin-top: 0; 
+}
+
+.userPhoto{
+    width: 70px;
+    height: 70px;
+    padding-bottom: 5px;
+    border-radius: 25px;
+} 
+
+.frmTextControl{
+  width: 100%;
+  padding: 3px;
+  resize:none;
+  margin-bottom: 10px;
+}
+
+
+
+
+
 

@@ -1,0 +1,41 @@
+<div class="modal-header">
+<h3 class="modal-title">Add Patients</h3>
+</div>
+<div class="modal-body">
+	<div name="lsPatientAdd">
+		<textarea ng-model="keyPatient" rows="2" readonly="readonly" class="frmTextControl"></textarea>
+	</div>
+
+	<div class="input-group">
+    <input type="text" class="form-control"/>
+    <span class="input-group-addon">
+        <i class="fa fa-search"></i>
+    </span>
+</div>
+
+	<div name="searchSec">
+		<input type="text" ng-model="keyPatient" class="search frmTextControl glyphicon glyphicon-search">
+	</div>
+
+	<div name="searchTextResults">
+		<div class="list">
+			<div class="patient-item" ng-repeat="patient in patientSearchList">
+				<div class="row">
+					<div class="col-sm-9 list-item">
+						<div ng-bind="patient.FirstName"></div>
+					</div>
+					<div>
+						<div class="col-sm-3">
+							<a ng-click="addUser(patient)" data-toggle="tooltip" title="Add"><img class="icon btn-action" src="/images/iconEdit.png"></a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="form-group btnGroup" >
+		<button class="btn btn-success" ng-click="continue()">Add Contacts</button>
+		<button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+	</div>
+</div>

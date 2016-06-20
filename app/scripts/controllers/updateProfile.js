@@ -8,11 +8,10 @@
  * Controller of the halzaPortalAppApp
  */
  angular.module('halzaPortalAppApp')
- .controller('UpdateProfileCtrl', ['$scope', '$http', '$timeout', 'user', 'userService', 'fileReader', 'urlConfig',
-   function ($scope, $http, $timeout, user, userService, fileReader, urlConfig) {
+ .controller('UpdateProfileCtrl', ['$scope', '$http', '$timeout', 'user', 'userService', 'fileReader', 'urlConfig','SweetAlert',
+   function ($scope, $http, $timeout, user, userService, fileReader, urlConfig,SweetAlert) {
 
      var userDatas = user.data;
-
      $scope.userProfiles = {};
      $scope.userProfiles.photo = urlConfig.apiServer + userDatas.Photo;
      $scope.userProfiles.email = userDatas.Email;
@@ -29,7 +28,7 @@
      $scope.showSaveErrorMessage = false;
      $scope.showSaveSuccesMessage = false;
      $scope.showAddSuccesMessage = false;
-     
+
      $scope.successAddMsg = "The data added successfully";
      $scope.successSaveMsg = "The data saved successfully";
      $scope.errorSaveMsg = "The data saved unsuccessfully";
@@ -55,7 +54,7 @@
     $scope.isAddMedicinePracticeArea = false;
     $scope.isAddMedicalEducations = false;
     $scope.isAddAward = false;
-    
+
     $scope.addNewOffice = function(office) {
       if($scope.userProfiles.officeAddress.indexOf(office) === -1){
         $scope.userProfiles.officeAddress.push(office);
@@ -149,7 +148,7 @@
     $scope.changePhotoProfile = function (input) {
       $scope.$apply(function() {
         var file = input.files[0];
-        
+
         $scope.userProfiles.photoFile = file;
 
         fileReader.readAsDataUrl(file, $scope)
@@ -159,7 +158,7 @@
       });
     };
 
-    
+
 
     $scope.updateProfile = function(profile){
       if(profile.fullName == null){
@@ -178,22 +177,51 @@
     function showAddSuccesMessage(){
       $scope.showAddSuccesMessage = true;
       $timeout(function(){
-          $scope.showAddSuccesMessage = false;
-       }, 3000);
+        $scope.showAddSuccesMessage = false;
+      }, 3000);
     };
 
     function showSaveSuccesMessage(){
       $scope.showSaveSuccesMessage = true;
       $timeout(function(){
-          $scope.showSaveSuccesMessage = false;
-       }, 3000);
+        $scope.showSaveSuccesMessage = false;
+      }, 3000);
     }
 
     function showSaveErrorMessage(){
       $scope.showSaveErrorMessage = true;
       $timeout(function(){
-          $scope.showSaveErrorMessage = false;
-       }, 3000);
+        $scope.showSaveErrorMessage = false;
+      }, 3000);
     }
-    
-    }]);
+
+
+
+    $scope.confirmSave = function(profile) {
+      SweetAlert.swal({
+       title: "Are you sure to save the data?",
+       showCancelButton: true,
+       confirmButtonColor: "#DD6B55",
+       confirmButtonText: "Yes",
+       cancelButtonText: "No",
+       closeOnConfirm: true,
+       closeOnCancel: true},
+       function(isConfirm){
+        if (isConfirm) {
+          if(profile.fullName == null){
+            profile.fullName = "";
+          }
+          $scope.isLoading = true;
+          userService.updateProfile(profile, function(){
+            $scope.isLoading = false;
+            showSaveSuccesMessage();
+          }, function(){
+            $scope.isLoading = false;
+            showSaveErrorMessage();
+          });
+        }
+
+      });
+    };
+
+  }]);

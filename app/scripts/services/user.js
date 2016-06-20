@@ -3,8 +3,8 @@ angular.module('halzaPortalAppApp').factory('userService', ['$http', 'urlConfig'
 	var userServices = {};
     var separator = "$$$$$";
 
-	userServices.getProfile = function(data) {
-        return $http.get(urlConfig.getProfile, data);
+	userServices.getProfile = function() {
+        return $http.get(urlConfig.getProfile);
     };
 
     userServices.updateProfile = function(data, callback, errorCallback) {

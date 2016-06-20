@@ -1,28 +1,35 @@
-<div class="header">
-	<div class="container">
-		<div class="row">
-			<div class="col-sm-12 halHeader">
-				<div class="form-group" ng-hide="isLogged" class="nav"> 
-					Not have an account? 
-					<a ng-click="openSignupPopup()">Sign up</a>
-				</div>
-
-				<div class="form-group" ng-show="isLogged" style="float:right;"> 
-					Welcome
-					<div class="btn-group">
-						<a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
-							<label>{{user.userName}}</label>
-							<span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a ui-sref="updateProfile({email: 'test', accessTocken: '123'})">Update Profile</a></li>
-							<li class="divider"></li>
-							<li><a ng-click="signOut()">Sign Out</a></li>
-						</ul>
-					</div>
-				</div>	
-			</div>
-		</div>
-
-	</div>		
+<div class="row header">
+  <div class="right">
+    <div ng-hide="isLogged" >
+      <div name="btnSignUpEmail" class="nav">
+        Not have an account?
+        <a ng-click="openSignupPopup()"><strong>Sign up</strong></a>
+      </div>
+      <div style="padding-top:10px;">
+        <strong>Social connect:</strong>
+        <a ng-click="loginByGoogle()"><img class="icon" src="/images/google-icon-small.png"></a>
+        <a ng-click="loginByLinkedIn()"><img class="icon" src="/images/linkedin-icon-small.png"></a>
+      </div>
+    </div>
+    <div class="form-group" ng-show="isLogged">
+      Welcome
+      <div class="btn-group">
+        <a class="btn dropdown-toggle btn-primary" data-toggle="dropdown" href="#">
+          <label>{{user.userName}}</label>
+          <span class="caret"></span>
+        </a>
+        <ul class="dropdown-menu">
+          <li><a ui-sref="updateProfile({email: 'test', accessTocken: '123'})">Update Profile</a></li>
+          <li class="divider"></li>
+          <li><a ng-click="signOut()">Sign Out</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div ng-show="isLogged" class="left">
+  
+    <img class="userPhoto" src={{userPhoto}}>
+  </div>
 </div>
+
+
